@@ -4,32 +4,54 @@ import morgan from "morgan";
 import dotenv from "dotenv";
 dotenv.config();
 
-// Import DB connection
+// DB
 import connectDB from "./config/db.js";
 
-// Import routes
-// import testimonialRoutes from "./routes/testimonialRoutes.js";
+// Routes
+import userRoutes from "./routes/userRoutes.js";
+import categoryRoutes from "./routes/categoryRoutes.js";
+import productRoutes from "./routes/productRoutes.js";
+import cartRoutes from "./routes/cartRoutes.js";
+import orderRoutes from "./routes/orderRoutes.js";
+import testimonialRoutes from "./routes/testimonialRoutes.js";
 
 const app = express();
 
 // Connect MongoDB
 connectDB();
 
-// Middleware
-app.use(cors());
+// CORS config (frontend allowed)
+app.use(
+  cors({
+    origin: [
+      "https://multikart-ecommerce-xgu2.vercel.app",
+      "http://localhost:5173",
+    ],
+    credentials: true,
+  })
+);
+
+// Middlewares
 app.use(express.json());
 app.use(morgan("dev"));
 
 // Routes
-// app.use("/api/testimonials", testimonialRoutes);
+app.use("/api", userRoutes);
+app.use("/api", categoryRoutes);
+app.use("/api", productRoutes);
+app.use("/api", cartRoutes);
+app.use("/api", orderRoutes);
+app.use("/api", testimonialRoutes);
 
 // Test route
 app.get("/", (req, res) => {
   res.send("Jewelry Backend Running 🔥");
 });
 
-app.listen(process.env.PORT || 3000, () => {
-  console.log(`Server is running on port ${process.env.PORT || 3000} 🚀`);
+// Server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT} 🚀`);
 });
 
 export default app;
