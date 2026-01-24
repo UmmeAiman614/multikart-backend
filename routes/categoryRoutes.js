@@ -1,4 +1,3 @@
-// routes/categoryRoutes.js
 import express from "express";
 import {
   createCategory,
@@ -10,15 +9,30 @@ import {
 
 import authMiddleware from "../middlewares/authMiddleware.js";
 import adminMiddleware from "../middlewares/adminMiddleware.js";
+import upload from "../middlewares/uploadMiddleware.js"; // Import upload middleware
 
 const router = express.Router();
 
-// ADMIN
-router.post("/category/add", authMiddleware, adminMiddleware, createCategory);
-router.put("/category/update/:id", authMiddleware, adminMiddleware, updateCategory);
+// ADMIN ONLY (With Image Upload Support)
+router.post(
+  "/category/add", 
+  authMiddleware, 
+  adminMiddleware, 
+  upload.single("image"), // This looks for the 'image' field in FormData
+  createCategory
+);
+
+router.put(
+  "/category/update/:id", 
+  authMiddleware, 
+  adminMiddleware, 
+  upload.single("image"), 
+  updateCategory
+);
+
 router.delete("/category/delete/:id", authMiddleware, adminMiddleware, deleteCategory);
 
-// USER + ADMIN
+// PUBLIC / USER
 router.get("/category/all", getAllCategories);
 router.get("/category/:id", getCategoryById);
 

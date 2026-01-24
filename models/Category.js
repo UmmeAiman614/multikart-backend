@@ -1,10 +1,11 @@
-// models/Category.js
 import mongoose from "mongoose";
 
 const categorySchema = new mongoose.Schema({
-  name: { type: String, required: true },
+  catName: { type: String, required: true },
+  slug: { type: String, required: true, unique: true },
   description: { type: String },
-  createdAt: { type: Date, default: Date.now }
-});
+  image: { type: String }, // Stores Cloudinary URL
+  displayOrder: { type: Number, default: 0 },
+}, { timestamps: true });
 
 export default mongoose.model("Category", categorySchema);

@@ -3,7 +3,9 @@ import express from "express";
 import {
   createOrder,
   getUserOrders,
-  getAllOrders
+  getAllOrders,
+  updateOrderStatus,
+  deleteOrder
 } from "../controllers/orderController.js";
 
 import authMiddleware from "../middlewares/authMiddleware.js";
@@ -17,5 +19,6 @@ router.get("/order/my-orders", authMiddleware, getUserOrders);
 
 // ADMIN
 router.get("/order/all", authMiddleware, adminMiddleware, getAllOrders);
-
+router.put("/order/update-status/:id", authMiddleware, adminMiddleware, updateOrderStatus);
+router.delete("/order/delete/:id", authMiddleware, adminMiddleware, deleteOrder);
 export default router;

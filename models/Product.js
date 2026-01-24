@@ -1,13 +1,14 @@
-// models/Product.js
 import mongoose from "mongoose";
 
 const productSchema = new mongoose.Schema({
   name: { type: String, required: true },
+  sku: { type: String }, // Missing SKU field add kiya
   description: { type: String },
   price: { type: Number, required: true },
   salePrice: { type: Number },
   discountPercent: { type: Number },
-  images: [{ type: String }],
+  metal: { type: String }, // FIXED: Metal field added
+  image: { type: String },
   category: { type: mongoose.Schema.Types.ObjectId, ref: "Category" },
   isFeatured: { type: Boolean, default: false },
   isOnSale: { type: Boolean, default: false },

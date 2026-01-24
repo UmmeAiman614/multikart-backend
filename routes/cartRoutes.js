@@ -4,7 +4,8 @@ import {
   addToCart,
   getCart,
   removeFromCart,
-  clearCart
+  clearCart,
+  applyCoupon
 } from "../controllers/cartController.js";
 
 import authMiddleware from "../middlewares/authMiddleware.js";
@@ -16,5 +17,5 @@ router.post("/cart/add", authMiddleware, addToCart);
 router.get("/cart/view", authMiddleware, getCart);
 router.delete("/cart/remove/:productId", authMiddleware, removeFromCart);
 router.delete("/cart/clear", authMiddleware, clearCart);
-
+router.post("/cart/apply-coupon", authMiddleware, applyCoupon);
 export default router;

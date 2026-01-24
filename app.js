@@ -14,7 +14,8 @@ import productRoutes from "./routes/productRoutes.js";
 import cartRoutes from "./routes/cartRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
 import testimonialRoutes from "./routes/testimonialRoutes.js";
-
+import reviewRoutes from "./routes/reviewRoutes.js";
+import couponRoutes from "./routes/couponRoutes.js";
 const app = express();
 
 // Connect MongoDB
@@ -42,6 +43,8 @@ app.use("/api", productRoutes);
 app.use("/api", cartRoutes);
 app.use("/api", orderRoutes);
 app.use("/api", testimonialRoutes);
+app.use("/api/reviews", reviewRoutes);
+app.use("/api/coupons", couponRoutes);
 
 // Test route
 app.get("/", (req, res) => {
@@ -54,4 +57,13 @@ app.listen(PORT, () => {
   console.log(`Server running on port ${PORT} 🚀`);
 });
 
+// Global Error Handler
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  const statusCode = err.statusCode || 500;
+  res.status(statusCode).json({
+    message: err.message || "Internal Server Error",
+    stack: process.env.NODE_ENV === "production" ? null : err.stack,
+  });
+});
 export default app;

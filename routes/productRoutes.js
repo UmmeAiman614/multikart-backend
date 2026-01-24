@@ -12,12 +12,15 @@ import {
 
 import authMiddleware from "../middlewares/authMiddleware.js";
 import adminMiddleware from "../middlewares/adminMiddleware.js";
-
+import upload from "../middlewares/uploadMiddleware.js"; // Import your multer config
 const router = express.Router();
 
 // ADMIN
-router.post("/product/add", authMiddleware, adminMiddleware, createProduct);
-router.put("/product/update/:id", authMiddleware, adminMiddleware, updateProduct);
+
+
+// ADMIN Routes with Image Support
+router.post("/product/add", authMiddleware, adminMiddleware, upload.single("image"), createProduct);
+router.put("/product/update/:id", authMiddleware, adminMiddleware, upload.single("image"), updateProduct);
 router.delete("/product/delete/:id", authMiddleware, adminMiddleware, deleteProduct);
 
 // USER + ADMIN

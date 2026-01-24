@@ -1,5 +1,5 @@
 import Cart from "../models/Cart.js";
-
+import Coupon from "../models/Coupon.js";
 // Add to Cart
 export const addToCart = async (req, res) => {
   try {
@@ -52,6 +52,26 @@ export const clearCart = async (req, res) => {
     cart.items = [];
     await cart.save();
     res.json(cart);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+
+export const applyCoupon = async (req, res) => {
+  try {
+    const { code } = req.body;
+    const coupon = await Coupon.findOne({ code, isActive: true });
+
+    if (!coupon) {
+      return res.status(404).json({ message: "Invalid or expired coupon code" });
+    }
+
+    if (new Date() > coupon.expiry) {
+      return res.status(400).json({ message: "Coupon has expired" });
+    }
+
+    res.json({ message: "Coupon applied!", discount: coupon.discount });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
