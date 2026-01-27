@@ -94,3 +94,60 @@ export const updateProfile = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+// Sab users ko fetch karne ka function
+export const getAllUsers = async (req, res) => {
+  try {
+    // .sort({ createdAt: -1 }) se naye users upar aayenge
+    const users = await User.find().sort({ createdAt: -1 });
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({ message: "Failed to fetch users", error: error.message });
+  }
+};
+
+// User delete karne ka function
+export const deleteUser = async (req, res) => {
+  try {
+    await User.findByIdAndDelete(req.params.id);
+    res.status(200).json({ message: "User deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Delete failed", error: error.message });
+  }
+};
+
+// Update User (Admin View)
+export const updateUserAdmin = async (req, res) => {
+  try {
+    const { name, email, role, status, password } = req.body;
+    const user = await User.findById(req.params.id);
+
+    if (user) {
+      user.name = name || user.name;
+      user.email = email || user.email;
+      user.role = role || user.role;
+      user.status = status || user.status;
+      
+      if (password) {
+        user.password = password; // Make sure your model has password hashing middleware
+      }
+
+      const updatedUser = await user.save();
+      res.json(updatedUser);
+    } else {
+      res.status(404).json({ message: "User not found" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const getUserById = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id).select("-password"); // Password hide rakhein
+    if (!user) return res.status(404).json({ message: "User not found" });
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

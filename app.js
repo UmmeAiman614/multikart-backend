@@ -16,6 +16,8 @@ import orderRoutes from "./routes/orderRoutes.js";
 import testimonialRoutes from "./routes/testimonialRoutes.js";
 import reviewRoutes from "./routes/reviewRoutes.js";
 import couponRoutes from "./routes/couponRoutes.js";
+import wishlistRoutes from "./routes/wishlistRoutes.js";
+import adminDashboardRoutes from "./routes/adminDashboardRoutes.js";
 const app = express();
 
 // Connect MongoDB
@@ -45,6 +47,8 @@ app.use("/api", orderRoutes);
 app.use("/api", testimonialRoutes);
 app.use("/api/reviews", reviewRoutes);
 app.use("/api/coupons", couponRoutes);
+app.use("/api/wishlist", wishlistRoutes);
+app.use("/api/admin", adminDashboardRoutes);
 
 // Test route
 app.get("/", (req, res) => {

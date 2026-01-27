@@ -7,7 +7,8 @@ import {
   getFeaturedProducts,
   getSaleProducts,
   updateProduct,
-  deleteProduct
+  deleteProduct,
+  updateStockAfterPurchase
 } from "../controllers/productController.js";
 
 import authMiddleware from "../middlewares/authMiddleware.js";
@@ -19,9 +20,11 @@ const router = express.Router();
 
 
 // ADMIN Routes with Image Support
-router.post("/product/add", authMiddleware, adminMiddleware, upload.single("image"), createProduct);
-router.put("/product/update/:id", authMiddleware, adminMiddleware, upload.single("image"), updateProduct);
+// ✅ Route update: single ki jagah array use kiya he
+router.post("/product/add", authMiddleware, adminMiddleware, upload.array("images", 5), createProduct);
+router.put("/product/update/:id", authMiddleware, adminMiddleware, upload.array("images", 5), updateProduct);
 router.delete("/product/delete/:id", authMiddleware, adminMiddleware, deleteProduct);
+router.post("/product/update-stock", updateStockAfterPurchase);
 
 // USER + ADMIN
 router.get("/product/all", getAllProducts);
