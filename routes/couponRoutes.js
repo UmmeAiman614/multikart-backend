@@ -4,7 +4,8 @@ import {
   createCoupon, 
   getAllCoupons, 
   applyCoupon, 
-  getLatestCoupon
+  getLatestCoupon,
+  deleteCoupon
 } from "../controllers/couponController.js";
 import authMiddleware from "../middlewares/authMiddleware.js";
 import adminMiddleware from "../middlewares/adminMiddleware.js";
@@ -16,4 +17,5 @@ router.get("/latest", authMiddleware, getLatestCoupon);
 // Private: Sirf Admin naye coupon banane aur dekhne ke liye
 router.post("/create", authMiddleware, adminMiddleware, createCoupon);
 router.get("/all", authMiddleware, adminMiddleware, getAllCoupons);
+router.delete("/delete/:id", authMiddleware, adminMiddleware, deleteCoupon);
 export default router;

@@ -56,3 +56,20 @@ export const getLatestCoupon = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+
+export const deleteCoupon = async (req, res) => {
+  try {
+    const coupon = await Coupon.findById(req.params.id);
+
+    if (!coupon) {
+      return res.status(404).json({ message: "Coupon not found" });
+    }
+
+    await coupon.deleteOne(); // Database se delete kar dega
+    res.status(200).json({ message: "Coupon removed successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Server Error", error: error.message });
+  }
+};
+  

@@ -14,7 +14,7 @@ const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
     folder: "jewellux_avatars",
-    allowed_formats: ["jpg", "png", "jpeg", "webp"]
+    allowed_formats: ["jpg", "png", "jpeg", "webp", "avif"]
   },
 });
 
